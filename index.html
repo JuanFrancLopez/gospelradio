@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Online con Logo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #ff5500;
+            --secondary-color: #333;
+            --text-color: #333;
+            --light-text: #f5f5f5;
+            --bg-color: #f5f5f5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 100px;
+            overflow-x: hidden;
+        }
+        
+        /* Header con imagen de fondo y logo */
+        header {
+            position: relative;
+            height: 70vh;
+            min-height: 400px;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('img/fondocabecera.jpg') no-repeat center center/cover;
+            color: var(--light-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            animation: fadeInUp 1s ease-out;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .radio-logo {
+            max-width: 500px;
+            width: 100%;
+            height: auto;
+            margin: 0 auto 2rem;
+            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+        }
+        
+        .header-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 85, 0, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 85, 0, 0.4);
+        }
+        
+        /* Resto del CSS permanece igual que en la versión anterior */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .programacion {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .programa {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .programa.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .programa:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .programa h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        
+        .programa .horario {
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .programa .descripcion {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .about {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-bottom: 4rem;
+            align-items: center;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.6s ease;
+        }
+        
+        .about-text.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateX(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .about-image.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        footer {
+            background: var(--secondary-color);
+            color: var(--light-text);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .social-links a {
+            color: var(--light-text);
+            font-size: 1.5rem;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .radio-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-top: 1px solid #333;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .radio-player.hidden {
+            transform: translateY(100%);
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .play-btn {
+            background: var(--primary-color);
+            border: none;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 85, 0, 0.3);
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(255, 85, 0, 0.4);
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .volume-control i {
+            font-size: 1.2rem;
+            color: #ccc;
+        }
+        
+        .volume-slider {
+            width: 100px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+        
+        .station-info {
+            flex-grow: 1;
+            padding: 0 1.5rem;
+        }
+        
+        .station-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: white;
+        }
+        
+        .station-info p {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                height: 60vh;
+                min-height: 300px;
+            }
+            
+            .radio-logo {
+                max-width: 200px;
+            }
+            
+            .header-content p {
+                font-size: 1.2rem;
+            }
+            
+            .radio-player {
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .station-info {
+                text-align: center;
+                padding: 0;
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header con imagen de fondo y logo -->
+    <header>
+        <div class="header-content">
+            <!-- Reemplaza "logo-radio.png" con la ruta de tu logo -->
+            <img src="img/logo.png" alt="Logo de la radio" class="radio-logo">
+            <p>The best music, 24 hours a day / La mejor música, las 24 horas del día</p>
+            <a href="#programacion" class="btn pulse">Download RadioLux App</a>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- Sección de programación -->
+        <section id="programacion" class="section">
+            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Nuestra Programación</h2>
+            <div class="programacion">
+                <div class="programa">
+                    <h3>Musical Programming</h3>
+                    <p class="horario"><i class="fas fa-clock"></i> Every Day - 24 Hours</p>
+                    <p class="descripcion">Select and blessed music to accompany you all day, every day.</p>
+                    <button class="btn" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Más info</button>
+                </div>
+                
+                <div class="programa">
+                    <h3>Thru the Bible (A Travez de la Biblia) </h3>
+                    <p class="horario"><i class="fas fa-clock"></i> Monday to Friday - 8:30 and 19:30
+                        9:00 and 20:00</p>
+                    <p class="descripcion">A fascinating Bible study where John McGee will instruct us about the Word of God.
+                        (The first time slot is for the English version, and the second is for the Spanish version. It's a reprise of what's broadcast on Radio Destello.)</p>
+                    <button class="btn" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Más info</button>
+                </div>
+                
+                <div class="programa">
+                    <h3>Open the Bible (Abra la Biblia) </h3>
+                    <p class="horario"><i class="fas fa-clock"></i>  Monday to Friday - 12:00 and 19:00 12:30 and 20:30</p>
+                    <p class="descripcion">It is a series of biblical teachings to support today's Christians and provide them with the tools to build their faith.
+                        (The first schedule is for the English version, and the second schedule is for the Spanish version.)</p>
+                    <button class="btn" style="padding: 0.5rem 1.2rem; font-size: 0.9rem;">Más info</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección sobre nosotros -->
+        <section class="about section">
+            <div class="about-text">
+                <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--primary-color);">Sobre Nosotros</h2>
+                <p style="margin-bottom: 1rem;">Gospel FM is a Christian radio station broadcasting from Guatemala City, bringing its audience the best experience of Christian music in English. We are a JFLG Broadcasting System and Voz Evangelica Internacional radio station. Along with Radio Destello, Stereo Granadilla, and Derramamiento Stereo, we form a radio network dedicated to edifying our audience and serving as a channel of blessing and spreading the message of salvation.</p>
+                <p style="margin-bottom: 1.5rem;">Gospel FM es una emisora cristiana que transmite desde la ciudad de Guatemala, trayendo a su audiencia la mejor experiencia de la musica cristiana en ingles. somos una emisora de JFLG Broadcasting Sistem y de Voz Evengelica Internacional. que Junto a Radio Destello, Stereo Granadilla y Derramamiento Stereo formamos un cirtuitos de emisoras con el fin de edificar a nuestra audiencia y ser un canal de bendicion y de difusion del mensaje de salvacion.</p>
+                <a href="#" class="btn">Download RadioLux App</a>
+            </div>
+            <div class="about-image">
+                <img src="img/about.jpg" alt="Estudio de radio">
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <!-- Logo más pequeño en el footer -->
+            <img src="img/logo.png" alt="Logo de la radio" style="max-width: 150px; margin-bottom: 1rem; filter: brightness(0) invert(1);">
+            <p>Transmitiendo para todo el mundo</p>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-spotify"></i></a>
+            </div>
+            
+            <p style="margin-top: 1.5rem;">&copy; 2025 Todos los derechos reservados.</p>
+            <p style="margin-top: 0.5rem;">JFLG Broadcasting Sistem and Voz Evangelica Internacional VEI</p>
+            <p style="margin-top: 0.5rem;">radiodestello1@yahoo.com</p>
+        </div>
+    </footer>
+    
+    <!-- Reproductor de Radio -->
+    <div class="radio-player">
+        <div class="station-info">
+            <h3>Gospel FM</h3>
+            <p>Transmitiendo en vivo</p>
+        </div>
+        
+        <div class="player-controls">
+            <button class="play-btn" id="playBtn"><i class="fas fa-play" id="playIcon"></i></button>
+            <div class="volume-control">
+                <i class="fas fa-volume-up"></i>
+                <input type="range" min="0" max="1" step="0.01" value="0.99" id="volumeSlider" class="volume-slider">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = new Audio();
+            const playBtn = document.getElementById('playBtn');
+            const playIcon = document.getElementById('playIcon');
+            const volumeSlider = document.getElementById('volumeSlider');
+            const radioPlayer = document.querySelector('.radio-player');
+            let isPlaying = false;
+            
+            // Configura la URL del stream de radio
+            audio.src = 'https://stream.zeno.fm/nda4uyd45dftv'; // Reemplaza con tu URL de stream
+            
+            // Control de volumen
+            volumeSlider.addEventListener('input', function() {
+                audio.volume = this.value;
+            });
+            
+            // Botón de play/pause
+            playBtn.addEventListener('click', function() {
+                if (isPlaying) {
+                    audio.pause();
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play');
+                } else {
+                    audio.play().catch(e => {
+                        console.error('Error al reproducir:', e);
+                        alert('Error al conectar con la radio. Intente nuevamente.');
+                    });
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                }
+                isPlaying = !isPlaying;
+            });
+            
+            // Manejo de errores
+            audio.addEventListener('error', function() {
+                console.error('Error en el reproductor de audio');
+                playIcon.classList.remove('fa-pause');
+                playIcon.classList.add('fa-play');
+                isPlaying = false;
+            });
+            
+            // Inicializar volumen
+            audio.volume = volumeSlider.value;
+            
+            // Animación al hacer scroll
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            document.querySelectorAll('.programa, .about-text, .about-image').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Ocultar/mostrar reproductor al hacer scroll
+            let lastScroll = 0;
+            window.addEventListener('scroll', function() {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll <= 0) {
+                    radioPlayer.classList.remove('hidden');
+                    return;
+                }
+                
+                if (currentScroll > lastScroll && !radioPlayer.classList.contains('hidden')) {
+                    // Scroll hacia abajo
+                    radioPlayer.classList.add('hidden');
+                } else if (currentScroll < lastScroll && radioPlayer.classList.contains('hidden')) {
+                    // Scroll hacia arriba
+                    radioPlayer.classList.remove('hidden');
+                }
+                
+                lastScroll = currentScroll;
+            });
+        });
+    </script>
+</body>
+</html>
